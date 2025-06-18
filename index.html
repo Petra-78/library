@@ -7,6 +7,35 @@
     <title>Document</title>
 </head>
 <body>
+    <div class="main">
+        <div class="sidebar">
+            <div class="logo-title">
+                <h1>My Library</h1>
+            </div>
+            <div class="form">
+                <form action="get">
+                    <input type="text" name="book_title" id="title">
+                    <input type="text" name="book_author" id="author">
+                    <input type="text" name="book_pages" id="pages">
+                    <input type="checkbox" name="read_book" id="read-book">
+                    <label for="read-book">Read the book?</label>
+                    <br>
+                    <button>add book</button>
+                </form>
+            </div>
+            
+        </div>
+        <div class="book-info"></div>
+        <div class="books">
+            <div class="acotar">
+                <h2 class="title"></h2>
+                <h3 class="author"></h3>
+                <p class="pages"></p>
+            </div>
+            <div class="hobbit"></div>
+        </div>
+    </div>
+
     
     <script src="text.js"></script>
 </body>
