@@ -12,59 +12,68 @@ function Book(title, author, pages, read) {
     }
 }
 
-const hobbit = new Book("The Hobbit", "J. R. R. Tolkien", 300, "not read");
 const acotar = new Book("A Court Of Thorns And Roses", "S.J.M", 356, "read");
 myLibrary.push(acotar);
-myLibrary.push(hobbit);
+
 
 function addBookToLibrary() {
   // take params, create a book then store it in the array
-  let whatTitle = prompt("What is the title of the book?");
-  let whatAuthor = prompt("Who is the author?");
-  let howManyPages = prompt("How many pages is it?");
-  let haveRead = prompt("Have you read it yet?");
+  let whatTitle = document.getElementById("title").value;
+  let whatAuthor = document.getElementById("author").value;
+  let howManyPages = document.getElementById("pages").value;
+  let haveRead = document.getElementById("read-book").value;
 
-  let newBook = new Book(whatTitle, whatAuthor, howManyPages, haveRead);
-  //the newBook objects current prototype is Array, then Object
-  myLibrary.push(newBook);
+    if( whatTitle === "" ||
+        whatAuthor === "" ||
+        howManyPages === "" 
+    ){
+        alert("Please fill in all the fields first");
+    } else {
 
-  let newDiv = document.createElement("div")
-  newDiv.classList.add("book");
-  document.querySelector(".books").appendChild(newDiv);
+        let newBook = new Book(whatTitle, whatAuthor, howManyPages, haveRead);
+        //the newBook objects current prototype is Array, then Object
+        myLibrary.push(newBook);
 
-  let bookTitle = document.createElement("h2")
-  bookTitle.classList.add("title");
-  bookTitle.textContent = newBook.title;
+        let newDiv = document.createElement("div")
+        newDiv.classList.add("book");
+        document.querySelector(".books").appendChild(newDiv);
 
-  let bookAuthor = document.createElement("h3")
-  bookAuthor.classList.add("author");
-  bookAuthor.textContent = newBook.author;
+        let bookTitle = document.createElement("h2")
+        bookTitle.classList.add("title");
+        bookTitle.textContent = newBook.title;
 
-  let bookPages = document.createElement("p")
-  bookPages.classList.add("pages");
-  bookPages.textContent = newBook.pages;
+        let bookAuthor = document.createElement("h3")
+        bookAuthor.classList.add("author");
+        bookAuthor.textContent = newBook.author;
 
-  newDiv.appendChild(bookTitle);
-  newDiv.appendChild(bookAuthor);
-  newDiv.appendChild(bookPages);
- 
+        let bookPages = document.createElement("p")
+        bookPages.classList.add("pages");
+        bookPages.textContent = `${newBook.pages} pages`;
+
+        newDiv.appendChild(bookTitle);
+        newDiv.appendChild(bookAuthor);
+        newDiv.appendChild(bookPages);
+    }
 
   newBook = "";
 }
 
 const btn = document.querySelector("button");
-btn.addEventListener("click", function() {
+btn.addEventListener("click", function(e) {
+    e.preventDefault();
     addBookToLibrary();
 })
 
 function logLibrary() {
-for (book in myLibrary) {
+  for (book in myLibrary) {
     console.log(book)
-}
+  }
 }
 
 document.querySelector(".title").textContent = acotar.title
 document.querySelector(".author").textContent = acotar.author
-document.querySelector(".pages").textContent = acotar.pages
+document.querySelector(".pages").textContent = `${acotar.pages} pages`
+
+
 
 
