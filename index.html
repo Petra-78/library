@@ -13,14 +13,15 @@
                 <h1>My Library</h1>
             </div>
             <div class="form">
-                <form action="get">
-                    <input type="text" name="book_title" id="title">
-                    <input type="text" name="book_author" id="author">
-                    <input type="text" name="book_pages" id="pages">
-                    <input type="checkbox" name="read_book" id="read-book">
-                    <label for="read-book">Read the book?</label>
-                    <br>
-                    <button>add book</button>
+                <form>
+                    <input type="text" name="book_title" id="title" placeholder="What is the title of the book?">
+                    <input type="text" name="book_author" id="author" placeholder="Who is the author?">
+                    <input type="number" name="book_pages" id="pages" placeholder="How many pages is it?" min="0">
+                    <div class="checkbox">
+                        <input type="checkbox" name="read_book" id="read-book">
+                        <label for="read-book">I read the book</label>
+                    </div>
+                    <button>Add book</button>
                 </form>
             </div>
             
@@ -32,7 +33,6 @@
                 <h3 class="author"></h3>
                 <p class="pages"></p>
             </div>
-            <div class="hobbit"></div>
         </div>
     </div>
 
