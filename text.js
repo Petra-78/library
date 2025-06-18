@@ -16,12 +16,14 @@ const acotar = new Book("A Court Of Thorns And Roses", "S.J.M", 356, "read");
 myLibrary.push(acotar);
 
 
-function addBookToLibrary() {
 
-  let whatTitle = document.getElementById("title").value;
-  let whatAuthor = document.getElementById("author").value;
-  let howManyPages = document.getElementById("pages").value;
-  let haveRead = document.getElementById("read-book").checked;
+function addBookToLibrary() {
+    
+    let whatTitle = document.getElementById("title").value;
+    let whatAuthor = document.getElementById("author").value;
+    let howManyPages = document.getElementById("pages").value;
+    let haveRead = document.getElementById("read-book").checked;
+
 
     if( whatTitle === "" ||
         whatAuthor === "" ||
@@ -114,9 +116,9 @@ btn.addEventListener("click", function(e) {
     clearInputs();
 })
 
-document.querySelector(".title").textContent = acotar.title
-document.querySelector(".author").textContent = acotar.author
-document.querySelector(".pages").textContent = `${acotar.pages} pages`
+// document.querySelector(".title").textContent = acotar.title
+// document.querySelector(".author").textContent = acotar.author
+// document.querySelector(".pages").textContent = `${acotar.pages} pages`
 
 
 const readBtns = document.querySelectorAll(".read-btn")
