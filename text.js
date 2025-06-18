@@ -17,11 +17,11 @@ myLibrary.push(acotar);
 
 
 function addBookToLibrary() {
-  // take params, create a book then store it in the array
+
   let whatTitle = document.getElementById("title").value;
   let whatAuthor = document.getElementById("author").value;
   let howManyPages = document.getElementById("pages").value;
-  let haveRead = document.getElementById("read-book").value;
+  let haveRead = document.getElementById("read-book").checked;
 
     if( whatTitle === "" ||
         whatAuthor === "" ||
@@ -31,11 +31,16 @@ function addBookToLibrary() {
     } else {
 
         let newBook = new Book(whatTitle, whatAuthor, howManyPages, haveRead);
-        //the newBook objects current prototype is Array, then Object
+       
         myLibrary.push(newBook);
 
         let newDiv = document.createElement("div")
         newDiv.classList.add("book");
+        if (haveRead) {
+            newDiv.style.borderLeft = "20px solid var(--dark-grey)"
+        } else {
+            newDiv.style.borderLeft = "20px solid var(--middle-beige)"
+        }
         document.querySelector(".books").appendChild(newDiv);
 
         let bookTitle = document.createElement("h2")
@@ -50,30 +55,83 @@ function addBookToLibrary() {
         bookPages.classList.add("pages");
         bookPages.textContent = `${newBook.pages} pages`;
 
+        let controlsDiv = document.createElement("div")
+        controlsDiv.classList.add("controls")
+
+        let readBtn = document.createElement("button")
+        readBtn.classList.add("read-btn")
+        if(haveRead) {
+            readBtn.textContent = "Read";
+        } else {
+            readBtn.textContent = "Not Read"
+        }
+
+        readBtn.addEventListener("click", function(e) {
+            if(readBtn.textContent === "Read") {
+                readBtn.textContent = "Not read"
+                const parentBook = e.target.closest(".book");
+                parentBook.style.borderLeft = "20px solid var(--middle-beige)"
+            } else {
+                readBtn.textContent = "Read"
+                const parentBook = e.target.closest(".book");
+                parentBook.style.borderLeft = "20px solid var(--dark-grey)"
+            }
+        });
+
+        let deleteBtn = document.createElement("button")
+        deleteBtn.classList.add("delete-btn")
+        deleteBtn.textContent = "Delete"
+
+        deleteBtn.addEventListener("click", function(e) {
+            const book = e.target.closest(".book");
+            book.remove(); 
+        });
+
+
+        
         newDiv.appendChild(bookTitle);
         newDiv.appendChild(bookAuthor);
         newDiv.appendChild(bookPages);
+        newDiv.appendChild(controlsDiv);
+        controlsDiv.appendChild(readBtn);
+        controlsDiv.appendChild(deleteBtn);
     }
 
   newBook = "";
 }
 
-const btn = document.querySelector("button");
+function clearInputs() {
+    document.getElementById("title").value = "";
+    document.getElementById("author").value = "";
+    document.getElementById("pages").value = "";
+    document.getElementById("read-book").value = "";
+}
+
+const btn = document.querySelector(".add-book");
 btn.addEventListener("click", function(e) {
     e.preventDefault();
     addBookToLibrary();
+    clearInputs();
 })
-
-function logLibrary() {
-  for (book in myLibrary) {
-    console.log(book)
-  }
-}
 
 document.querySelector(".title").textContent = acotar.title
 document.querySelector(".author").textContent = acotar.author
 document.querySelector(".pages").textContent = `${acotar.pages} pages`
 
 
+const readBtns = document.querySelectorAll(".read-btn")
+readBtns.forEach ((readBtn) => {
+readBtn.addEventListener("click", function(e) {
+    if(readBtn.textContent === "Read") {
+        readBtn.textContent = "Not read"
+        const parentBook = e.target.closest(".book");
+        parentBook.style.borderLeft = "20px solid var(--middle-beige)"
+    } else {
+        readBtn.textContent = "Read"
+        const parentBook = e.target.closest(".book");
+        parentBook.style.borderLeft = "20px solid var(--dark-grey)"
+    }
+});
+})
 
 
