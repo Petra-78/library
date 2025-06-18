@@ -1,4 +1,9 @@
 
+//WHAT TO FIX TOMORROW:
+//DELETE button to remove elements from the array too
+//READ status to be changed by adding a function to the Books prototype
+
+
 const myLibrary = [];
 
 function Book(title, author, pages, read) {
@@ -106,7 +111,7 @@ function clearInputs() {
     document.getElementById("title").value = "";
     document.getElementById("author").value = "";
     document.getElementById("pages").value = "";
-    document.getElementById("read-book").value = "";
+    document.getElementById("read-book").checked = false;
 }
 
 const btn = document.querySelector(".add-book");
