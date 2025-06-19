@@ -1,10 +1,7 @@
 
-//WHAT TO FIX TOMORROW:
-//DELETE button to remove elements from the array too
-//READ status to be changed by adding a function to the Books prototype
-
-
 const myLibrary = [];
+
+addDefaultBooks()
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -12,9 +9,6 @@ function Book(title, author, pages, read) {
     this.pages = pages;
     this.read = read;
     this.id = crypto.randomUUID();
-    this.info = function() {
-        return (`${this.title} by ${this.author}, ${this.pages} pages, ${read}`)
-    }
 }
 
 Book.prototype.toggleRead = function(button, element) {
@@ -29,11 +23,6 @@ Book.prototype.toggleRead = function(button, element) {
     }
 };
 
-const acotar = new Book("A Court Of Thorns And Roses", "S.J.M", 356, "read");
-myLibrary.push(acotar);
-
-
-
 function addBookToLibrary() {
     
     let whatTitle = document.getElementById("title").value;
@@ -41,85 +30,19 @@ function addBookToLibrary() {
     let howManyPages = document.getElementById("pages").value;
     let haveRead = document.getElementById("read-book").checked;
 
-    let newBook = new Book(whatTitle, whatAuthor, howManyPages, haveRead);
-
-
-    if( whatTitle === "" ||
+     if( whatTitle === "" ||
         whatAuthor === "" ||
         howManyPages === "" 
     ){
         alert("Please fill in all the fields first");
     } else {
-
+        const newBook = new Book(whatTitle, whatAuthor, howManyPages, haveRead);
         myLibrary.push(newBook);
 
-        let newDiv = document.createElement("div")
-        newDiv.classList.add("book");
-        newDiv.dataset.id = newBook.id;
-        if (haveRead) {
-            newDiv.style.borderLeft = "20px solid var(--dark-grey)"
-        } else {
-            newDiv.style.borderLeft = "20px solid var(--middle-beige)"
-        }
-        document.querySelector(".books").appendChild(newDiv);
-
-        let bookTitle = document.createElement("h2")
-        bookTitle.classList.add("title");
-        bookTitle.textContent = newBook.title;
-
-        let bookAuthor = document.createElement("h3")
-        bookAuthor.classList.add("author");
-        bookAuthor.textContent = newBook.author;
-
-        let bookPages = document.createElement("p")
-        bookPages.classList.add("pages");
-        bookPages.textContent = `${newBook.pages} pages`;
-
-        let controlsDiv = document.createElement("div")
-        controlsDiv.classList.add("controls")
-
-        let readBtn = document.createElement("button")
-        readBtn.classList.add("read-btn")
-        if(haveRead) {
-            readBtn.textContent = "Read";
-        } else {
-            readBtn.textContent = "Not Read"
-        }
-
-        readBtn.addEventListener("click", function (e) {
-            const parentBook = e.target.closest(".book");
-            const bookId = parentBook.dataset.id;
-            const matchedBook = myLibrary.find(book => book.id === bookId);
-            if (matchedBook) {
-                matchedBook.toggleRead(readBtn, parentBook);
-            }
-        });
-
-        let deleteBtn = document.createElement("button")
-        deleteBtn.classList.add("delete-btn")
-        deleteBtn.textContent = "Delete"
-
-        deleteBtn.addEventListener("click", function(e) {
-            const book = e.target.closest(".book");
-            const bookId = book.dataset.id;
-            book.remove();
-            
-            const index = myLibrary.findIndex(book => book.id === bookId);
-                if (index !== -1) {
-                    myLibrary.splice(index, 1);
-                }
-        });
-            
-
-        newDiv.appendChild(bookTitle);
-        newDiv.appendChild(bookAuthor);
-        newDiv.appendChild(bookPages);
-        newDiv.appendChild(controlsDiv);
-        controlsDiv.appendChild(readBtn);
-        controlsDiv.appendChild(deleteBtn);
+        const bookElement = createBookElement(newBook);
+        document.querySelector(".books").appendChild(bookElement);
     }
 }
-
 
 function clearInputs() {
     document.getElementById("title").value = "";
@@ -136,5 +59,83 @@ btn.addEventListener("click", function(e) {
 })
 
 
+function createBookElement(book) {
+    const haveRead = document.getElementById("read-book").checked;
+    const newDiv = document.createElement("div");
+    newDiv.classList.add("book");
+    newDiv.dataset.id = book.id;
 
+        if (haveRead) {
+            newDiv.style.borderLeft = "20px solid var(--dark-grey)"
+        } else {
+            newDiv.style.borderLeft = "20px solid var(--middle-beige)"
+        }
 
+    const bookTitle = document.createElement("h2");
+    bookTitle.classList.add("title");
+    bookTitle.textContent = book.title;
+
+    const bookAuthor = document.createElement("h3");
+    bookAuthor.classList.add("author");
+    bookAuthor.textContent = book.author;
+
+    const bookPages = document.createElement("p");
+    bookPages.classList.add("pages");
+    bookPages.textContent = `${book.pages} pages`;
+
+    const controlsDiv = document.createElement("div");
+    controlsDiv.classList.add("controls");
+
+    const readBtn = document.createElement("button");
+    readBtn.classList.add("read-btn");
+    readBtn.textContent = book.read ? "Read" : "Not read";
+
+    readBtn.addEventListener("click", function (e) {
+        const parentBook = e.target.closest(".book");
+        const bookId = parentBook.dataset.id;
+        const matchedBook = myLibrary.find(b => b.id === bookId);
+        if (matchedBook) {
+            matchedBook.toggleRead(readBtn, parentBook);
+        }
+    });
+
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-btn");
+    deleteBtn.textContent = "Delete";
+
+    deleteBtn.addEventListener("click", function (e) {
+        const parentBook = e.target.closest(".book");
+        const bookId = parentBook.dataset.id;
+        parentBook.remove();
+
+        const index = myLibrary.findIndex(b => b.id === bookId);
+        if (index !== -1) {
+            myLibrary.splice(index, 1);
+        }
+    });
+
+    controlsDiv.appendChild(readBtn);
+    controlsDiv.appendChild(deleteBtn);
+
+    newDiv.appendChild(bookTitle);
+    newDiv.appendChild(bookAuthor);
+    newDiv.appendChild(bookPages);
+    newDiv.appendChild(controlsDiv);
+
+    return newDiv;
+}
+
+function addDefaultBooks() {
+    const defaultBooks = [
+        { title: "The Hobbit", author: "J.R.R. Tolkien", pages: 310, read: true },
+        { title: "1984", author: "George Orwell", pages: 328, read: false },
+        { title: "To Kill a Mockingbird", author: "Harper Lee", pages: 281, read: true }
+    ];
+
+    defaultBooks.forEach(bookData => {
+        const defaultBook = new Book(bookData.title, bookData.author, bookData.pages, bookData.read);
+        myLibrary.push(defaultBook);
+        const bookElement = createBookElement(defaultBook);
+        document.querySelector(".books").appendChild(bookElement);
+    });
+}
