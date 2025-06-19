@@ -113,12 +113,12 @@ function createBookElement(book) {
         const parentBook = e.target.closest(".book");
         const bookId = parentBook.dataset.id;
         parentBook.remove();
-        readBooksCount();
 
         const index = myLibrary.findIndex(b => b.id === bookId);
         if (index !== -1) {
             myLibrary.splice(index, 1);
         }
+        readBooksCount();
     });
 
     controlsDiv.appendChild(readBtn);
@@ -164,3 +164,13 @@ function readBooksCount() {
     notReadBooks.textContent = notReadNum;
     totalBooks.textContent = totalNum;
 }
+
+const deleteAllBtn = document.querySelector(".delete-all-btn")
+deleteAllBtn.addEventListener("click", function() {
+    const bookElements = document.querySelectorAll(".book")
+    bookElements.forEach((book) => {
+        book.remove();
+    })
+    myLibrary.length = 0;
+    readBooksCount();
+})

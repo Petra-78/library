@@ -127,6 +127,10 @@ button {
     font-weight: 600;
 }
 
+button:hover {
+    cursor: pointer;
+}
+
 .book-info {
     background-color: var(--middle-beige);
     display: grid;
