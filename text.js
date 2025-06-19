@@ -1,7 +1,11 @@
+const readBookPara = document.querySelector(".read-books-num")
+const notReadBooks = document.querySelector(".not-read-books-num")
+const totalBooks = document.querySelector(".total-books-num")
 
 const myLibrary = [];
 
-addDefaultBooks()
+addDefaultBooks();
+readBooksCount();
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -56,6 +60,7 @@ btn.addEventListener("click", function(e) {
     e.preventDefault();
     addBookToLibrary();
     clearInputs();
+    readBooksCount();
 })
 
 
@@ -96,6 +101,7 @@ function createBookElement(book) {
         const matchedBook = myLibrary.find(b => b.id === bookId);
         if (matchedBook) {
             matchedBook.toggleRead(readBtn, parentBook);
+            readBooksCount();
         }
     });
 
@@ -107,6 +113,7 @@ function createBookElement(book) {
         const parentBook = e.target.closest(".book");
         const bookId = parentBook.dataset.id;
         parentBook.remove();
+        readBooksCount();
 
         const index = myLibrary.findIndex(b => b.id === bookId);
         if (index !== -1) {
@@ -127,9 +134,9 @@ function createBookElement(book) {
 
 function addDefaultBooks() {
     const defaultBooks = [
-        { title: "The Hobbit", author: "J.R.R. Tolkien", pages: 310, read: true },
+        { title: "The Hobbit", author: "J.R.R. Tolkien", pages: 310, read: false },
         { title: "1984", author: "George Orwell", pages: 328, read: false },
-        { title: "To Kill a Mockingbird", author: "Harper Lee", pages: 281, read: true }
+        { title: "To Kill a Mockingbird", author: "Harper Lee", pages: 281, read: false }
     ];
 
     defaultBooks.forEach(bookData => {
@@ -138,4 +145,22 @@ function addDefaultBooks() {
         const bookElement = createBookElement(defaultBook);
         document.querySelector(".books").appendChild(bookElement);
     });
+}
+
+
+
+function readBooksCount() {
+    let readBookNum = 0
+    let notReadNum = 0
+    let totalNum = myLibrary.length
+    for (book of myLibrary) {
+        if(book.read === true) {
+            readBookNum++
+        } else {
+            notReadNum++
+        }
+    }   
+    readBookPara.textContent = readBookNum;
+    notReadBooks.textContent = notReadNum;
+    totalBooks.textContent = totalNum;
 }

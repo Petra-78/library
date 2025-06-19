@@ -98,7 +98,7 @@ label {
     background-color: var(--light-grey);
 }
 
-.acotar, .book {
+.book {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -129,11 +129,43 @@ button {
 
 .book-info {
     background-color: var(--middle-beige);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+}
+
+.book-info > * {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.book-info > * > * {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+}
+
+.delete-all-btn {
+    color: var(--dark-grey);
 }
 
 @media (max-width: 600px) {
+    .main {
+        grid-template-columns: auto auto;
+    }
+    .sidebar > * {
+        width: 100%;
+        padding:20% 10px;
+        grid-template-rows: auto auto;
+    }
     .books {
         grid-template-columns: auto;
+    }
+    form > * {
+        font-size: 0.8rem;
     }
 }
 
