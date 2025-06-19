@@ -29,6 +29,8 @@ function addBookToLibrary() {
     let howManyPages = document.getElementById("pages").value;
     let haveRead = document.getElementById("read-book").checked;
 
+    let newBook = new Book(whatTitle, whatAuthor, howManyPages, haveRead);
+
 
     if( whatTitle === "" ||
         whatAuthor === "" ||
@@ -37,12 +39,11 @@ function addBookToLibrary() {
         alert("Please fill in all the fields first");
     } else {
 
-        let newBook = new Book(whatTitle, whatAuthor, howManyPages, haveRead);
-       
         myLibrary.push(newBook);
 
         let newDiv = document.createElement("div")
         newDiv.classList.add("book");
+        newDiv.dataset.id = newBook.id;
         if (haveRead) {
             newDiv.style.borderLeft = "20px solid var(--dark-grey)"
         } else {
@@ -91,11 +92,15 @@ function addBookToLibrary() {
 
         deleteBtn.addEventListener("click", function(e) {
             const book = e.target.closest(".book");
+            const bookId = book.dataset.id;
             book.remove(); 
+
+            const index = myLibrary.findIndex(book => book.id === bookId);
+                if (index !== -1) {
+                    myLibrary.splice(index, 1);
+                }
         });
 
-
-        
         newDiv.appendChild(bookTitle);
         newDiv.appendChild(bookAuthor);
         newDiv.appendChild(bookPages);
@@ -106,6 +111,7 @@ function addBookToLibrary() {
 
   newBook = "";
 }
+
 
 function clearInputs() {
     document.getElementById("title").value = "";
@@ -121,9 +127,6 @@ btn.addEventListener("click", function(e) {
     clearInputs();
 })
 
-// document.querySelector(".title").textContent = acotar.title
-// document.querySelector(".author").textContent = acotar.author
-// document.querySelector(".pages").textContent = `${acotar.pages} pages`
 
 
 const readBtns = document.querySelectorAll(".read-btn")
