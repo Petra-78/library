@@ -17,6 +17,18 @@ function Book(title, author, pages, read) {
     }
 }
 
+Book.prototype.toggleRead = function(button, element) {
+    if (this.read === true) {
+        this.read = false;
+        button.textContent = "Not read";
+        element.style.borderLeft = "20px solid var(--middle-beige)";
+    } else {
+        this.read = true;
+        button.textContent = "Read";
+        element.style.borderLeft = "20px solid var(--dark-grey)";
+    }
+};
+
 const acotar = new Book("A Court Of Thorns And Roses", "S.J.M", 356, "read");
 myLibrary.push(acotar);
 
@@ -74,15 +86,12 @@ function addBookToLibrary() {
             readBtn.textContent = "Not Read"
         }
 
-        readBtn.addEventListener("click", function(e) {
-            if(readBtn.textContent === "Read") {
-                readBtn.textContent = "Not read"
-                const parentBook = e.target.closest(".book");
-                parentBook.style.borderLeft = "20px solid var(--middle-beige)"
-            } else {
-                readBtn.textContent = "Read"
-                const parentBook = e.target.closest(".book");
-                parentBook.style.borderLeft = "20px solid var(--dark-grey)"
+        readBtn.addEventListener("click", function (e) {
+            const parentBook = e.target.closest(".book");
+            const bookId = parentBook.dataset.id;
+            const matchedBook = myLibrary.find(book => book.id === bookId);
+            if (matchedBook) {
+                matchedBook.toggleRead(readBtn, parentBook);
             }
         });
 
@@ -93,13 +102,14 @@ function addBookToLibrary() {
         deleteBtn.addEventListener("click", function(e) {
             const book = e.target.closest(".book");
             const bookId = book.dataset.id;
-            book.remove(); 
-
+            book.remove();
+            
             const index = myLibrary.findIndex(book => book.id === bookId);
                 if (index !== -1) {
                     myLibrary.splice(index, 1);
                 }
         });
+            
 
         newDiv.appendChild(bookTitle);
         newDiv.appendChild(bookAuthor);
@@ -108,8 +118,6 @@ function addBookToLibrary() {
         controlsDiv.appendChild(readBtn);
         controlsDiv.appendChild(deleteBtn);
     }
-
-  newBook = "";
 }
 
 
@@ -128,20 +136,5 @@ btn.addEventListener("click", function(e) {
 })
 
 
-
-const readBtns = document.querySelectorAll(".read-btn")
-readBtns.forEach ((readBtn) => {
-readBtn.addEventListener("click", function(e) {
-    if(readBtn.textContent === "Read") {
-        readBtn.textContent = "Not read"
-        const parentBook = e.target.closest(".book");
-        parentBook.style.borderLeft = "20px solid var(--middle-beige)"
-    } else {
-        readBtn.textContent = "Read"
-        const parentBook = e.target.closest(".book");
-        parentBook.style.borderLeft = "20px solid var(--dark-grey)"
-    }
-});
-})
 
 
