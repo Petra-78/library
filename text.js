@@ -4,28 +4,31 @@ const totalBooks = document.querySelector(".total-books-num")
 
 const myLibrary = [];
 
-addDefaultBooks();
 readBooksCount();
 
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-    this.id = crypto.randomUUID();
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+        this.id = crypto.randomUUID();
+    }
+
+    toggleRead(button, element) {
+        if (this.read === true) {
+            this.read = false;
+            button.textContent = "Not read";
+            element.style.borderLeft = "20px solid var(--middle-beige)";
+        } else {
+            this.read = true;
+            button.textContent = "Read";
+            element.style.borderLeft = "20px solid var(--dark-grey)";
+        }
+    }
 }
 
-Book.prototype.toggleRead = function(button, element) {
-    if (this.read === true) {
-        this.read = false;
-        button.textContent = "Not read";
-        element.style.borderLeft = "20px solid var(--middle-beige)";
-    } else {
-        this.read = true;
-        button.textContent = "Read";
-        element.style.borderLeft = "20px solid var(--dark-grey)";
-    }
-};
+addDefaultBooks();
 
 function addBookToLibrary() {
     
@@ -146,8 +149,6 @@ function addDefaultBooks() {
         document.querySelector(".books").appendChild(bookElement);
     });
 }
-
-
 
 function readBooksCount() {
     let readBookNum = 0
